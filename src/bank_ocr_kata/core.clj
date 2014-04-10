@@ -1,4 +1,5 @@
 (ns bank-ocr-kata.core
+  (:require [clojure.string :as str])
   (:use [bank-ocr-kata.digits]))
 
 (defn read-digit
@@ -18,4 +19,8 @@
 (defn read-file
   "Read a file with account entries in pipe & underscore form, and return list of account numbers"
   [filename]
-  (throw (UnsupportedOperationException. "Not yet implemented")))
+  (->> filename
+       slurp
+       str/split-lines
+       (partition 4)
+       (map read-entry)))

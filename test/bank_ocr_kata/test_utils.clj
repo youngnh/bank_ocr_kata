@@ -38,7 +38,7 @@
 (defn read-clj
   "Reads a file as a serialized/readable Clojure datastructure"
   [filename]
-  (with-open [in (io/reader filename)] (read in)))
+  (with-open [in (java.io.PushbackReader. (io/reader filename))] (read in)))
 
 (defn write-clj
   "(Pretty) Prints a Clojure datastructure to a file"

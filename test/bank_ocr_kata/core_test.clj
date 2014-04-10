@@ -30,4 +30,4 @@
 
 (deftest test-read-file
   (testing "read a file with 10 entries"
-    (is (= (read-clj "read_file_10_entries.ans") (read-file "read_file_10_entries.input")))))
+    (is (= (read-clj "resources/read_file_10_entries.ans") (read-file "resources/read_file_10_entries.input")))))
