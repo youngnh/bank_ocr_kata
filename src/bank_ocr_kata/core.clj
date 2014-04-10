@@ -1,19 +1,6 @@
 (ns bank-ocr-kata.core
   (:use [bank-ocr-kata.digits]))
 
-(defn write-entry
-  "Write a seq of 9 digits to 4 lines of pipe & underscore string representation"
-  [digits]
-  (let [last-line (apply str (repeat (* 3 (count digits)) " "))]
-    (concat (apply map str (map ocr-digits digits))
-            (list last-line))))
-
-(defn print-entry
-  "Print a seq of 9 digits to 4 lines of pipe & underscore string representation"
-  [digits]
-  (doseq [line (write-entry digits)]
-    (println line)))
-
 (defn read-digit
   [lines]
   "Returns a double of the digit read and the remaining parts of the strings"
@@ -27,3 +14,8 @@
   "Read a 9-digit from 4 lines of a pipe & underscore representation"
   [lines]
   (drop 1 (take (inc 9) (map first (iterate (fn [[_ lines]] (read-digit lines)) [:ignored lines]))))) 
+
+(defn read-file
+  "Read a file with account entries in pipe & underscore form, and return list of account numbers"
+  [filename]
+  (throw (UnsupportedOperationException. "Not yet implemented")))
