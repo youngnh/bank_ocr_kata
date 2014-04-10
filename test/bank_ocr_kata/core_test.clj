@@ -22,4 +22,7 @@
     (is (= (repeat 9 0) (read-entry (write-entry (repeat 9 0))))))
 
   (testing "111111111"
-    (is (= (repeat 9 1) (read-entry (write-entry (repeat 9 1)))))))
+    (is (= (repeat 9 1) (read-entry (write-entry (repeat 9 1))))))
+
+  (testing "123456789"
+    (is (= (range 1 (inc 9)) (read-entry (write-entry (range 1 (inc 9))))))))
