@@ -4,14 +4,14 @@
 
 (deftest test-write-entry
   (testing "00"
-    (is (= (list " -  - "
+    (is (= (list " _  _ "
                  "| || |"
                  "|_||_|"
                  "      ")
            (write-entry (repeat 2 0)))))
 
   (testing "000000000"
-    (is (= (list " -  -  -  -  -  -  -  -  - "
+    (is (= (list " _  _  _  _  _  _  _  _  _ "
                  "| || || || || || || || || |"
                  "|_||_||_||_||_||_||_||_||_|"
                  "                           ")
