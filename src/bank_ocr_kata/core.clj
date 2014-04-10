@@ -24,3 +24,8 @@
        str/split-lines
        (partition 4)
        (map read-entry)))
+
+(defn valid-account-number?
+  [account-number]
+  (let [sum (apply + (map * (reverse account-number) (range 1 (inc (count account-number)))))]
+    (zero? (mod sum 11))))

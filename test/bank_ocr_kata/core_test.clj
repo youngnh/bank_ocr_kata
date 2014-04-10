@@ -31,3 +31,14 @@
 (deftest test-read-file
   (testing "read a file with 10 entries"
     (is (= (read-clj "resources/read_file_10_entries.ans") (read-file "resources/read_file_10_entries.input")))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; User Story 2
+
+(deftest test-validate-account-number
+  (testing "valid account number"
+    (is (valid-account-number? [3 4 5 8 8 2 8 6 5])))
+
+  (testing "invalid account number"
+    (is (not (valid-account-number? [4 4 5 8 8 2 8 6 5])))))
