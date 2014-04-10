@@ -11,4 +11,6 @@
 (defn read-entry
   "Read a 9-digit from 4 lines of a pipe & underscore representation"
   [lines]
-  (repeat 9 0))
+  (let [digit (map #(apply str (take 3 %)) (butlast lines))
+        match-digit (fn [n] (= digit (ocr-digits n)))]
+    (repeat 9 (first (filter match-digit (range 9))))))

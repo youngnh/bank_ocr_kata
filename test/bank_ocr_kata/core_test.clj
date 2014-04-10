@@ -19,4 +19,7 @@
 
 (deftest test-read-entry
   (testing "000000000"
-    (is (= (repeat 9 0) (read-entry (write-entry (repeat 9 0)))))))
+    (is (= (repeat 9 0) (read-entry (write-entry (repeat 9 0))))))
+
+  (testing "111111111"
+    (is (= (repeat 9 1) (read-entry (write-entry (repeat 9 1)))))))
