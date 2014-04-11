@@ -95,3 +95,8 @@
     (let [actual (attempt-repair [5 5 0x4F 5 5 5 5 5 5])]
       (contains? actual [5 5 9 5 5 5 5 5 5]))))
 
+(deftest test-findings-with-amb
+  (testing "one of each status including amb"
+    (write-findings (read-file "resources/findings_one_of_each_02.input")
+                    "resources/findings_one_of_each_02.gen")
+    (is (= (slurp "resources/findings_one_of_each_02.ans") (slurp "resources/findings_one_of_each_02.gen")))))
