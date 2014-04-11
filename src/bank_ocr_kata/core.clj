@@ -39,8 +39,9 @@
 
 (defn valid-account-number?
   [account-number]
-  (let [sum (apply + (map * (reverse account-number) (range 1 (inc (count account-number)))))]
-    (zero? (mod sum 11))))
+  (and (every? #(and (>= % 0) (<= % 9)) account-number)
+   (let [sum (apply + (map * (reverse account-number) (range 1 (inc (count account-number)))))]
+     (zero? (mod sum 11)))))
 
 (defn attempt-repair
   "Given an invalid or illegible account #, try to find a valid
@@ -61,11 +62,21 @@
   (with-open [out (io/writer filename)]
     (binding [*out* out]
       (doseq [account-number account-numbers]
-        (let [account-number (map #(if (> % 9)'? %) account-number)
-              illegible? (some #(= % '?) account-number)
-              status (if illegible?
-                       "ILL"
-                       (if (not (valid-account-number? account-number))
-                         "ERR"
-                         ""))]
-          (println (apply str account-number) status))))))
+        (let [format-amb (fn [mightbe-set]
+                           (apply str (interpose ", " (map #(str "'" (apply str %) "'") (sort mightbe-set)))))
+              [account-number' status] (cond
+                                        (some #(> % 9) account-number) (let [might-be (attempt-repair (vec account-number))]
+                                                                         (cond
+                                                                          (empty? might-be) [(map #(if (> % 9) '? %) account-number) "ILL"]
+                                                                          (= 1 (count might-be)) [(first might-be) ""]
+                                                                          :else [(map #(if (> % 9) '? %) account-number) (str "AMB [" (format-amb might-be) "]")]))
+
+                                        (not (valid-account-number? account-number)) (let [might-be (attempt-repair (vec account-number))]
+                                                                                       (cond
+                                                                                        (empty? might-be) [account-number "ERR"]
+                                                                                        (= 1 (count might-be)) [(first might-be) ""]
+                                                                                        :else [account-number (str "AMB [" (format-amb might-be) "]")]))
+                                        :else [account-number ""])]
+          (println (apply str account-number') status))))))
+
+

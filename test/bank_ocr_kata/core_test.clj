@@ -100,7 +100,18 @@
   ;;  |
   (testing "55?555555 could be 559555555"
     (let [actual (attempt-repair [5 5 0x4F 5 5 5 5 5 5])]
-      (contains? actual [5 5 9 5 5 5 5 5 5]))))
+      (is (contains? actual [5 5 9 5 5 5 5 5 5]))))
+
+  (testing "only return valid solutions"
+    (let [actual (attempt-repair [4 9 0 0 6 7 7 1 (first (read-digit [" _ "
+                                                                      " _ "
+                                                                      " _|"
+                                                                      "   "]))])]
+      (is (empty? actual)))))
+
+(deftest test-checksum-fails-with-invalid-digits
+  (testing "numeric representation of illegible characters doesn't bork validation"
+    (is (not (valid-account-number? [4 3 0 0 6 7 7 1 101])))))
 
 (deftest test-findings-with-amb
   (testing "one of each status including amb"
