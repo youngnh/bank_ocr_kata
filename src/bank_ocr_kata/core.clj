@@ -32,6 +32,19 @@
   (let [sum (apply + (map * (reverse account-number) (range 1 (inc (count account-number)))))]
     (zero? (mod sum 11))))
 
+(defn attempt-repair
+  "Given an invalid or illegible account #, try to find a valid
+   account given how the scanner might make an error"
+  [account-number]
+  (->>
+   (mapcat (fn [n]
+             (let [digit (get account-number n)
+                   mightbe (disj (could-be (segment digit)) (segment digit))]
+               (map #(assoc account-number n (digits-segment %)) mightbe)))
+           (range (count account-number)))
+   (filter valid-account-number?)
+   (set)))
+
 (defn write-findings
   "Produce a file with the account numbers read, noting any errors or illegibilities"
   [account-numbers filename]

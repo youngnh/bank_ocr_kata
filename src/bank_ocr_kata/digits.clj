@@ -92,9 +92,11 @@
 (def digits-segment (apply hash-map (mapcat reverse segment-digits)))
 
 (defn segment
-  "Returns the binary representation of a numeric digit. A 7 bit number representing what segments are 'lit up'"
+  "Returns the binary representation of a numeric digit. A 7 bit
+   number representing what segments are 'lit up' If given a segment
+   (or any number greater than 9) it will return that number"
   [n]
-  (get segment-digits n))
+  (get segment-digits n n))
 
 (defn could-be
   "Returns all of the digits (in segment-form) that the given one
@@ -106,4 +108,4 @@
   (let [valid? (set (vals segment-digits))]
     (->> (map #(bit-or seg (bit-shift-left 1 %)) (range 7))
          (filter valid?)
-         (reduce conj #{seg}))))
+         (reduce conj #{}))))

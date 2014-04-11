@@ -75,3 +75,17 @@
   ;;| |
   (testing "A could be 8"
     (is (contains? (could-be 0x5F) (segment 8)))))
+
+(deftest test-attempt-repair
+  (testing "555555555 could be 555655555 or 559555555"
+    (let [actual (attempt-repair (vec (repeat 9 5)))]
+      (is (contains? actual [5 5 5 6 5 5 5 5 5]))
+      (is (contains? actual [5 5 9 5 5 5 5 5 5]))))
+
+  ;; _
+  ;;|_|
+  ;;  |
+  (testing "55?555555 could be 559555555"
+    (let [actual (attempt-repair [5 5 0x4F 5 5 5 5 5 5])]
+      (contains? actual [5 5 9 5 5 5 5 5 5]))))
+
