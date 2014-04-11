@@ -1,6 +1,6 @@
 # bank_ocr_kata
 
-A Clojure library designed to ... well, that part is up to you.
+A Clojure library designed to solve the Bank OCR Kata
 
 ## Usage
 
