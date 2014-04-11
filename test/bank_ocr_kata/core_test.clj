@@ -74,7 +74,13 @@
   ;;|_|
   ;;| |
   (testing "A could be 8"
-    (is (contains? (could-be 0x5F) (segment 8)))))
+    (is (contains? (could-be 0x5F) (segment 8))))
+
+  ;;
+  ;; _|
+  ;;  |
+  (testing "sideways T could be 1"
+    (is (contains? (could-be 0x4C) (segment 1)))))
 
 (deftest test-attempt-repair
   (testing "555555555 could be 555655555 or 559555555"

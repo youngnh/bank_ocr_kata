@@ -106,6 +106,6 @@
    digit should be a segment representation of a digit"
   [seg]
   (let [valid? (set (vals segment-digits))]
-    (->> (map #(bit-or seg (bit-shift-left 1 %)) (range 7))
+    (->> (map #(bit-flip seg %) (range 7))
          (filter valid?)
          (reduce conj #{}))))
