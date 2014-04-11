@@ -31,11 +31,6 @@
   []
   (take 9 (repeatedly #(rand-int (inc 9)))))
 
-(defn random-length-ocr-file
-  "Generate an ocr file with n-entries in it. Account #s are randomly generated"
-  [n-entries filename]
-  (random-ocr-file (take n-entries (repeatedly rand-acct)) filename))
-
 (defn random-ocr-file
   "Generate an ocr file with the given entries in it"
   [entries filename]
@@ -43,6 +38,11 @@
     (binding [*out* out]
       (doseq [entry entries]
         (print-entry entry)))))
+
+(defn random-length-ocr-file
+  "Generate an ocr file with n-entries in it. Account #s are randomly generated"
+  [n-entries filename]
+  (random-ocr-file (take n-entries (repeatedly rand-acct)) filename))
 
 
 (defn read-clj

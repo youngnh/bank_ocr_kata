@@ -3,14 +3,24 @@
             [clojure.string :as str])
   (:use [bank-ocr-kata.digits]))
 
+(defn illegible
+  "Turns text into a number representing the illegible OCR digit"
+  [digit]
+  (let [pos-order (apply str (reverse (apply str (.charAt (first digit) 1) (drop 1 digit))))]
+    (-> pos-order
+        (.replaceAll "_" "1")
+        (.replaceAll "\\|" "1")
+        (.replaceAll " " "0")
+        (Integer/parseInt 2))))
+
 (defn read-digit
   [lines]
   "Returns a double of the digit read and the remaining parts of the strings"
-  (let [digit (map #(apply str (take 3 %)) (butlast lines))
+  (let [digit (map #(.substring % 0 3) (butlast lines))
         rest (map #(.substring % 3) lines)
         match-digit (fn [n] (= digit (ocr-digits n)))
         matched (first (filter match-digit (range (inc 9))))]
-    [(or matched '?)
+    [(or matched (illegible digit))
      rest]))
 
 (defn read-entry
@@ -51,7 +61,8 @@
   (with-open [out (io/writer filename)]
     (binding [*out* out]
       (doseq [account-number account-numbers]
-        (let [illegible? (some #(= % '?) account-number)
+        (let [account-number (map #(if (> % 9)'? %) account-number)
+              illegible? (some #(= % '?) account-number)
               status (if illegible?
                        "ILL"
                        (if (not (valid-account-number? account-number))

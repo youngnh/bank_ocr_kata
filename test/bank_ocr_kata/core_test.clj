@@ -50,7 +50,7 @@
 (deftest test-illegible-number
   (testing "illegible number"
     (let [illegible '(8 6 1 1 0 ? ? 3 6)]
-      (is (= illegible (read-entry (write-entry illegible)))))))
+      (is (= [8 6 1 1 0 94 94 3 6] (read-entry (write-entry illegible)))))))
 
 (deftest test-findings-file
   (testing "one of each status"
@@ -60,6 +60,13 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; User Story 4
+
+(deftest test-read-illegible-digit
+  (let [[digit _] (read-digit [" _ "
+                               " _ "
+                               " _|"
+                               "   "])]
+    (is (= digit (Integer/parseInt "1100101" 2)))))
 
 (deftest test-could-be
   (testing "0 could be 8"
