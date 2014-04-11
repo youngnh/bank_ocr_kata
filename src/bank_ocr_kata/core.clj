@@ -7,8 +7,9 @@
   "Returns a double of the digit read and the remaining parts of the strings"
   (let [digit (map #(apply str (take 3 %)) (butlast lines))
         rest (map #(.substring % 3) lines)
-        match-digit (fn [n] (= digit (ocr-digits n)))]
-    [(first (filter match-digit (range (inc 9))))
+        match-digit (fn [n] (= digit (ocr-digits n)))
+        matched (first (filter match-digit (range (inc 9))))]
+    [(or matched '?)
      rest]))
 
 (defn read-entry

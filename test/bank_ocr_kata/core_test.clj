@@ -42,3 +42,11 @@
 
   (testing "invalid account number"
     (is (not (valid-account-number? [4 4 5 8 8 2 8 6 5])))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; User Story 3
+
+(deftest test-illegible-number
+  (testing "illegible number"
+    (let [illegible '(8 6 1 1 0 ? ? 3 6)]
+      (is (= illegible (read-entry (write-entry illegible)))))))

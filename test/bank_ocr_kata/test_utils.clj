@@ -3,11 +3,21 @@
             [clojure.pprint :as pprint])
   (:use [bank-ocr-kata.digits]))
 
+(def bad-digit
+  ["   "
+   "|_|"
+   "| |"])
+
 (defn write-entry
-  "Write a seq of 9 digits to 4 lines of pipe & underscore string representation"
+  "Write a seq of 9 digits to 4 lines of pipe & underscore string representation
+   Given an element that is not a digit will produce an ill-formed pipe & underscore digit in the output"
   [digits]
-  (let [last-line (apply str (repeat (* 3 (count digits)) " "))]
-    (concat (apply map str (map ocr-digits digits))
+  (let [last-line (apply str (repeat (* 3 (count digits)) " "))
+        lookup (fn [n]
+                 (if (number? n)
+                   (ocr-digits n)
+                   bad-digit))]
+    (concat (apply map str (map lookup digits))
             (list last-line))))
 
 (defn print-entry
