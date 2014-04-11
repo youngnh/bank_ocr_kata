@@ -1,7 +1,8 @@
 (ns bank-ocr-kata.core-test
   (:require [clojure.test :refer :all]
             [bank-ocr-kata.test-utils :refer :all]
-            [bank-ocr-kata.core :refer :all]))
+            [bank-ocr-kata.core :refer :all]
+            [bank-ocr-kata.digits :refer :all]))
 
 (deftest test-write-entry
   (testing "00"
@@ -56,3 +57,21 @@
     (write-findings (read-file "resources/findings_one_of_each.input")
                     "resources/findings_one_of_each.gen")
     (is (= (slurp "resources/findings_one_of_each.ans") (slurp "resources/findings_one_of_each.gen")))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; User Story 4
+
+(deftest test-could-be
+  (testing "0 could be 8"
+    (is (contains? (could-be (segment 0)) (segment 8))))
+
+  (testing "5 could be 6 or 9"
+    (let [mightbe (could-be (segment 5))]
+      (is (contains? mightbe (segment 6)))
+      (is (contains? mightbe (segment 9)))))
+
+  ;; _
+  ;;|_|
+  ;;| |
+  (testing "A could be 8"
+    (is (contains? (could-be 0x5F) (segment 8)))))
