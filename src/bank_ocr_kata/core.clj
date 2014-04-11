@@ -1,5 +1,6 @@
 (ns bank-ocr-kata.core
-  (:require [clojure.string :as str])
+  (:require [clojure.java.io :as io]
+            [clojure.string :as str])
   (:use [bank-ocr-kata.digits]))
 
 (defn read-digit
@@ -30,3 +31,17 @@
   [account-number]
   (let [sum (apply + (map * (reverse account-number) (range 1 (inc (count account-number)))))]
     (zero? (mod sum 11))))
+
+(defn write-findings
+  "Produce a file with the account numbers read, noting any errors or illegibilities"
+  [account-numbers filename]
+  (with-open [out (io/writer filename)]
+    (binding [*out* out]
+      (doseq [account-number account-numbers]
+        (let [illegible? (some #(= % '?) account-number)
+              status (if illegible?
+                       "ILL"
+                       (if (not (valid-account-number? account-number))
+                         "ERR"
+                         ""))]
+          (println (apply str account-number) status))))))

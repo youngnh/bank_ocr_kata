@@ -50,3 +50,9 @@
   (testing "illegible number"
     (let [illegible '(8 6 1 1 0 ? ? 3 6)]
       (is (= illegible (read-entry (write-entry illegible)))))))
+
+(deftest test-findings-file
+  (testing "one of each status"
+    (write-findings (read-file "resources/findings_one_of_each.input")
+                    "resources/findings_one_of_each.gen")
+    (is (= (slurp "resources/findings_one_of_each.ans") (slurp "resources/findings_one_of_each.gen")))))

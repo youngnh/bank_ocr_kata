@@ -1,3 +1,6 @@
+# Ignore generated output in resources/
+resources/*.gen
+
 /target
 /classes
 /checkouts
